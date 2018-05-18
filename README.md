@@ -1,6 +1,6 @@
 [iOS 项目 自动打包+上传蒲公英+推送到钉钉群](https://www.jianshu.com/p/ca9496c00dda)
 
-## 一、需求
+## 一、打包需求
 
 目前公司项目规模较小，还没有自动构建体系，新项目需求排期也比较紧，一直没时间搞自动化，简单的写了个打包脚本先满足基本需求，功能如下：
 
@@ -8,16 +8,21 @@
 2. 打出的 `ipa` 包上传到蒲公英；
 3. 上传成功后，通知到钉钉开发群；
 
+### 效果如下：
+
+![](https://upload-images.jianshu.io/upload_images/332029-8ae0a19377f78814.gif?imageMogr2/auto-orient/strip)
+
 ### 依赖：
 
-1. `fastlane` 的 `gym` 模块 (包 ipa 文件)；
+1. `fastlane` 的 `gym` 模块 (用于打包 ipa 文件)；
 2. `fastlane` 的 `sign` 模块 (非必须)；
 3. 蒲公英和钉钉提供的 `webhook`；
 4. `PlistBuddy` 解析 `plist` 文件（Mac 系统自带）;
 
-脚本都比较简单，推送到钉钉群用 curl 命令拼接 `json param` 时一直有问题，就改用 `python` 写了。
+脚本都比较简单，没有使用 `fastlane` 的全套解决方案，只用了 `gym` 模块。好处是，开箱即用，不用了解过多的 `fastlane` 各种配置和用法。
+推送到钉钉群用 curl 命令拼接 `json param` 时一直有问题，就改用 `python` 写了。
 
-## 二、使用
+## 二、使用说明：
 
 使用此脚本的的话，需要修改以下地方：
 
@@ -26,7 +31,7 @@
 2. `auto_package_ipa.sh` 文件中打包证书对应的 `AppleID` （用于公司或个人账号添加了测试设备后，自动更新打包证书，非必须）;
 3. `auto_upload_pyg.sh` 文件中蒲公英的 userKey 和 api_key `PGY_USER_KEY` 和 `PGY_API_KEY`
 4. `auto_push_ding_talk.sh` 文件中钉钉的 webhook url: `host_url`，上传后蒲公英后的下载地址 `cm_down_load_url` 和 app icon `cm_icon_image_url`。（不过除了杭州以外，办公用钉钉的也不会很多吧）
-5. `auto_package_ipa.sh` 文件中的 `CM_EXPORT_METHOD` ，demo 项目没有 `app id` 设置的是打 `development` ，正常开发阶段选择 `ad-hoc` 打包
+5. `auto_package_ipa.sh` 文件中的 `CM_EXPORT_METHOD` ，demo 项目由于没有真实的 `app id` 设置的是打 `development` 包，正常开发阶段选择打 `ad-hoc` 包
 
 ## 三、show me code
 
@@ -105,7 +110,7 @@ xcode-select --install
 
 ## 五、Demo
 
-[Demo 戳这里](https://github.com/yehot/iOS-AutoPackage-Demo)
+[可运行的 Demo 戳这里](https://github.com/yehot/iOS-AutoPackage-Demo)
 
 注：
 
