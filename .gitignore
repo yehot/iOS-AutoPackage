@@ -61,3 +61,10 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+
+# fastlane
+fastlane_build_*
+*.mobileprovision
+*.ipa
+typescript
+

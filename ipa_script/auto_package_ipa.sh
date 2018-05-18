@@ -18,8 +18,8 @@ readonly PROJECT_DIR=$(dirname $(pwd))
 readonly OUTPUT_DIR=${PROJECT_DIR}/fastlane_build_${NOW}
 
 # project scheme、workspace name
-readonly CM_SCHEME="Your_Project_Scheme_Name"
-readonly CM_WORKSPACE="Your_Project_Workspace_Name"
+readonly CM_SCHEME="AutoPackageDemo"
+readonly CM_WORKSPACE="AutoPackageDemo"
 readonly CM_WORKSPACE_PATH="${PROJECT_DIR}/${CM_WORKSPACE}.xcworkspace"
 
 # product
@@ -29,9 +29,14 @@ readonly CM_IPA_PATH="${OUTPUT_DIR}/${CM_IPA_NAME}"
 
 # 打包方式 Debug 、Release
 readonly CM_BUILD_CONFIGURATION="Debug"
+
 # 指定打包所使用的输出方式
 # 目前支持app-store, package, ad-hoc, enterprise, development, 和developer-id，即xcodebuild的method参数
-readonly CM_EXPORT_METHOD="ad-hoc"
+
+# -----------------------------
+readonly CM_EXPORT_METHOD="development" # demo 项目没有 app id，打包方式选择 development 才能打出 ipa
+# readonly CM_EXPORT_METHOD="ad-hoc"    # 正常开发阶段选择 ad-hoc 打包，发布目前是手动打包
+# -----------------------------
 
 
 function echo_log() {
@@ -54,7 +59,7 @@ echo_log "7 ipa name = ${CM_IPA_NAME}"
 echo_log "======================================="
 
 # 强制更新证书 (非必须)
-readonly APPLE_ID="your_apple_id@xxxx.com"
+# readonly APPLE_ID="xxxxxx@xxxx.com"
 # fastlane sigh download_all -u ${APPLE_ID} --adhoc --force
 
 # 先清空前一次build
@@ -73,6 +78,8 @@ fi
 
 echo_log "===== 打包耗时：${SECONDS}s ====="
 echo "===== 包路径：${CM_IPA_PATH} ====="
+
+open ${OUTPUT_DIR}
 
 # 上传到蒲公英 (以上调试完成后，再打开以下注释)
 # sh ./auto_upload_pgy.sh ${NOW} ${CM_IPA_PATH} ${CM_IPA_NAME}
